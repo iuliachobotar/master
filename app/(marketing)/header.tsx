@@ -24,7 +24,7 @@ export const Header = () => {
             alt="Logo"
           />
 
-          <h1 className="text-2xl font-medium tracking-wide">
+          <h1 className="text-2xl font-medium text-green-600 tracking-wide">
             Lingo
           </h1>
         </div>
