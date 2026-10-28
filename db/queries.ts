@@ -167,6 +167,14 @@ export const getLesson = cache(async (id?: number) => {
     if (!data || !data.challenges) {
         return null;
     }
+    console.log(
+    "Lesson challenges:",
+    data.challenges.map((challenge) => ({
+        id: challenge.id,
+        type: challenge.type,
+        options: challenge.challengeOptions,
+    }))
+);
 
 
     const normalizedChallenges = data.challenges.map((challenge) => {
