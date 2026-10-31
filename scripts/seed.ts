@@ -134,7 +134,6 @@ const main = async () => {
             },
         ]);
 
-
          await db.insert(schema.challengeOptions).values([
             {
 
@@ -156,11 +155,6 @@ const main = async () => {
                 audioSrc: "/es_robot.mp3",
             },
         ]);
-
-
-
-
-
 
         await db.insert(schema.challengeOptions).values([
             {
@@ -186,6 +180,30 @@ const main = async () => {
             },
         ]);
 
+
+        await db.insert(schema.challenges).values([
+            {
+                id: 4,
+                lessonsId: 2, // Verbs
+                type: "SELECT",
+                order: 1,
+                question: 'Which one of these is the "the man"?',
+            },
+            {
+                id: 5,
+                lessonsId: 2, // Verbs
+                type: "ASSIST",
+                order: 2,
+                question: '"the man"',
+            },
+            {
+                id: 6,
+                lessonsId: 2, // Verbs
+                type: "SELECT",
+                order: 3,
+                question: '"Which one of these is the "the robot"?',
+            }
+        ]);
 
 
         console.log("Seeding finished");
