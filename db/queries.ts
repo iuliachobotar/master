@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 
 
 import db from "@/db/drizzle";
-import { challengeProgress, challenges, courses, lessons, units, userProgress } from "@/db/schema";
+import { challengeProgress, challenges, courses, lessons, units, userProgress, userSubscription } from "@/db/schema";
 import { AwardIcon } from "lucide-react";
 
 export const getUserProgress = cache(async () => {
@@ -207,4 +207,41 @@ export const getLessonPercentage = cache(async () => {
     );
 
     return percentage;
+});
+
+const DAY_IN_MS = 86_400_000;
+
+export const getUserSubscription = cache(async () => {
+    const { userId } = await auth();
+
+    if (!userId) return null;
+
+
+    //TEST PRO
+
+    // return {
+    //         userId,
+    //         stripeCustomerId: "test_customer",
+    //         stripePriceId: "test_price",
+    //         stripeCurrentPeriodEnd: new Date(Date.now() + 30 * DAY_IN_MS),
+    //         isActive: true,
+    //     };
+
+
+
+
+    const  data = await db.query.userSubscription.findFirst({
+        where: eq(userSubscription.userId, userId),
+    });
+
+    if (!data) return null;
+
+    const isActive = 
+    data.stripePriceId &&
+    data.stripeCurrentPeriodEnd?.getTime()! + DAY_IN_MS > Date.now();
+
+    return {
+        ...data,
+        isActive: !!isActive,
+    };
 });
