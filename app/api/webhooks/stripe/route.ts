@@ -47,17 +47,28 @@ export async function POST(req: Request) {
     }
 
     if (event.type === "invoice.payment_succeeded") {
-        const subscription = await stripe.subscriptions.retrieve(
-            session.subscription as string,
-        );
+    const invoice = event.data.object as Stripe.Invoice;
+
+    const subscriptionId = invoice.parent?.subscription_details?.subscription;
+
+if (typeof subscriptionId === "string") {
+    const subscription = await stripe.subscriptions.retrieve(
+        subscriptionId
+    );
 
         await db.update(userSubscription).set({
             stripePriceId: subscription.items.data[0].price.id,
             stripeCurrentPeriodEnd: new Date(
                 subscription.items.data[0].current_period_end * 1000,
             ),
-        }).where(eq(userSubscription.stripeCustomerId, subscription.id))
+        }).where(
+            eq(
+                userSubscription.stripeCustomerId,
+                subscription.customer as string
+            )
+        );
     }
+}
 
     return new NextResponse(null, { status: 200 });
 }
