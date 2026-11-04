@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 
+import { TypingChallenge } from "./typing-challenge";
 import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import { Header } from "./header";
 import { QuestionBubble } from "./question-bubble";
@@ -47,22 +48,21 @@ export const Quiz = ({
         }
     });
 
-
     const { width, height } = useWindowSize();
 
     const router = useRouter();
 
-    const [finishAudio] = useAudio({src: "/finish.mp3", autoPlay: true });
+    const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
     const [
         correctAudio,
         _c,
         correctControls,
-    ] = useAudio({src: "/correct.wav"});
+    ] = useAudio({ src: "/correct.wav" });
     const [
         incorrectAudio,
         _i,
         incorrectControls,
-    ] = useAudio({src: "/incorrect.wav"});
+    ] = useAudio({ src: "/incorrect.wav" });
     const [pending, startTransition] = useTransition();
 
     const [lessonId] = useState(initialLessonId);
@@ -72,7 +72,7 @@ export const Quiz = ({
     });
     const [challenges] = useState(initialLessonChallenges);
     const [activeIndex, setActiveIndex] = useState(() => {
-        const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed)
+        const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed);
         return uncompletedIndex === -1 ? 0 : uncompletedIndex;
     });
 
@@ -81,9 +81,32 @@ export const Quiz = ({
 
     const challenge = challenges[activeIndex];
     const options = challenge?.challengeOptions ?? [];
-    console.log("Active challenge:", challenge?.id, challenge?.type);
-console.log("Options:", options);
-    
+    const sortedOptions = [...options].sort((a, b) => a.id - b.id);
+
+    // Завершення TYPE-челенджа: працює так само, як правильна відповідь в інших челенджах
+    const onTypingComplete = () => {
+        if (status !== "none") return;
+
+        startTransition(() => {
+            upsertChallengeProgress(challenge.id)
+                .then((response) => {
+                    if (response?.error === "hearts") {
+                        openHeartsModal();
+                        return;
+                    }
+
+                    correctControls.play();
+                    setSelectedOption(options[0]?.id); // щоб кнопка Next стала активною
+                    setStatus("correct");
+                    setPercentage((prev) => prev + 100 / challenges.length);
+
+                    if (initialPercentage === 100) {
+                        setHearts((prev) => Math.min(prev + 1, 5));
+                    }
+                })
+                .catch(() => toast.error("Something went wrong. Please try again."));
+        });
+    };
 
     const onNext = () => {
         setActiveIndex((current) => current + 1);
@@ -120,39 +143,39 @@ console.log("Options:", options);
         if (correctOption && correctOption.id === selectedOption) {
             startTransition(() => {
                 upsertChallengeProgress(challenge.id)
-                .then((response) => {
-                    if (response?.error === "hearts") {
-                        openHeartsModal();
-                        return;
-                    }
+                    .then((response) => {
+                        if (response?.error === "hearts") {
+                            openHeartsModal();
+                            return;
+                        }
 
-                    correctControls.play();
-                    setStatus("correct");
-                    setPercentage((prev) => prev + 100 / challenges.length);
+                        correctControls.play();
+                        setStatus("correct");
+                        setPercentage((prev) => prev + 100 / challenges.length);
 
-                    if (initialPercentage === 100) {
-                        setHearts((prev) => Math.min(prev + 1, 5));
-                    }
-                })
-                .catch(() => toast.error("Something went wrong. Plese try again."))
+                        if (initialPercentage === 100) {
+                            setHearts((prev) => Math.min(prev + 1, 5));
+                        }
+                    })
+                    .catch(() => toast.error("Something went wrong. Please try again."));
             });
         } else {
             startTransition(() => {
                 reduceHearts(challenge.id)
-                .then((response) => {
-                    if (response?.error === "hearts") {
-                        openHeartsModal();
-                        return;
-                    }
+                    .then((response) => {
+                        if (response?.error === "hearts") {
+                            openHeartsModal();
+                            return;
+                        }
 
-                    incorrectControls.play();
-                    setStatus("wrong");
+                        incorrectControls.play();
+                        setStatus("wrong");
 
-                    if (!response?.error) {
-                        setHearts((prev) => Math.max(prev - 1, 0));
-                    }
-                })
-                .catch(() => toast.error("Something went wrong. Please try again."))
+                        if (!response?.error) {
+                            setHearts((prev) => Math.max(prev - 1, 0));
+                        }
+                    })
+                    .catch(() => toast.error("Something went wrong. Please try again."));
             });
         }
     };
@@ -160,23 +183,23 @@ console.log("Options:", options);
     if (!challenge) {
         return (
             <>
-            {finishAudio}
-            <Confetti
-                width={width}
-                height={height}
-                recycle={false}
-                numberOfPieces={500}
-                tweenDuration={10000}
-            />
+                {finishAudio}
+                <Confetti
+                    width={width}
+                    height={height}
+                    recycle={false}
+                    numberOfPieces={500}
+                    tweenDuration={10000}
+                />
                 <div className="flex flex-col gap-y-4 lg:gap-y-8 max-w-lg mx-auto text-center items-center justify-center h-full">
-                    <Image 
+                    <Image
                         src="/finish.svg"
                         alt="Finish"
                         className="hidden lg:block"
                         height={100}
                         width={100}
                     />
-                    <Image 
+                    <Image
                         src="/finish.svg"
                         alt="Finish"
                         className="block lg:hidden"
@@ -206,14 +229,14 @@ console.log("Options:", options);
         );
     }
 
-    const title = challenge.type === "ASSIST" 
-    ? "Select the correct meaning"
-    : challenge.question;
+    const title = challenge.type === "ASSIST"
+        ? "Select the correct meaning"
+        : challenge.question;
 
     return (
         <>
-        {incorrectAudio}
-        {correctAudio}
+            {incorrectAudio}
+            {correctAudio}
             <Header
                 hearts={hearts}
                 percentage={percentage}
@@ -227,24 +250,41 @@ console.log("Options:", options);
                         </h1>
                         <div>
                             {challenge.type === "ASSIST" && (
-                            <QuestionBubble question={challenge.question}/>
+                                <QuestionBubble question={challenge.question} />
                             )}
-                            <Challenge
-                            options={options}
-                            onSelect={onSelect}
-                            status={status}
-                            selectOption={selectedOption}
-                            disabled={pending}
-                            type={challenge.type}
-                            />
+
+                            {challenge.type === "TYPE" ? (
+                                <TypingChallenge
+                                    key={challenge.id}
+                                    imageSrc={sortedOptions[0]?.imageSrc}
+                                    audioSrc={sortedOptions[0]?.audioSrc}
+                                    cardText={sortedOptions[0]?.text}
+                                    stages={sortedOptions.map((o) => ({
+                                        text: o.text,
+                                        audioSrc: o.audioSrc,
+                                        done: !o.correct, // correct: false = уже написано, лише показати
+                                    }))}
+                                    disabled={pending || status !== "none"}
+                                    onComplete={onTypingComplete}
+                                />
+                            ) : (
+                                <Challenge
+                                    options={options}
+                                    onSelect={onSelect}
+                                    status={status}
+                                    selectOption={selectedOption}
+                                    disabled={pending}
+                                    type={challenge.type}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
             <Footer
-            disabled={pending || !selectedOption}
-            status={status}
-            onCheck={onContinue}
+                disabled={pending || !selectedOption}
+                status={status}
+                onCheck={onContinue}
             />
         </>
     );
