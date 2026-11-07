@@ -47,9 +47,9 @@ const main = async () => {
         await db.insert(schema.units).values([
             {
                 id: 1,
-                courseId: 1, // Spanish
-                title: "Unit 1",
-                description: "Learn the basics of Spanish",
+                courseId: 1,
+                title: "Розділ 1",
+                description: "Вивчіть основи іспанської мови",
                 order: 1,
             },
         ]);
@@ -58,66 +58,65 @@ const main = async () => {
             {
                 id: 7,
                 unitId: 1,
-                order: 1, // НОВИЙ перший урок: фліп-картки
+                order: 1, 
                 title: "Flip",
             },
             {
                 id: 6,
                 unitId: 1,
-                order: 2, // було 1
+                order: 2, 
                 title: "Robot",
             },
             {
                 id: 1,
                 unitId: 1,
-                order: 3, // було 2
+                order: 3, 
                 title: "Nouns",
             },
             {
                 id: 2,
                 unitId: 1,
-                order: 4, // було 3
+                order: 4, 
                 title: "Verbs",
             },
             {
                 id: 3,
                 unitId: 1,
-                order: 5, // було 4
+                order: 5, 
                 title: "Verbs",
             },
             {
                 id: 4,
                 unitId: 1,
-                order: 6, // було 5
+                order: 6, 
                 title: "Verbs",
             },
             {
                 id: 5,
                 unitId: 1,
-                order: 7, // було 6
+                order: 7, 
                 title: "Verbs",
             },
         ]);
 
-        // ---------- Lesson 1: Nouns ----------
         await db.insert(schema.challenges).values([
             {
                 id: 1,
-                lessonsId: 1, // Nouns
+                lessonsId: 1, 
                 type: "SELECT",
                 order: 1,
                 question: 'Which one of these is the "the man"?',
             },
             {
                 id: 2,
-                lessonsId: 1, // Nouns
+                lessonsId: 1, 
                 type: "ASSIST",
                 order: 2,
                 question: '"the man"',
             },
             {
                 id: 3,
-                lessonsId: 1, // Nouns
+                lessonsId: 1, 
                 type: "SELECT",
                 order: 3,
                 question: 'Which one of these is the "the robot"?',
@@ -126,7 +125,7 @@ const main = async () => {
 
         await db.insert(schema.challengeOptions).values([
             {
-                challengeId: 1, // Which one of these is the "the man"?
+                challengeId: 1, 
                 imageSrc: "/man.svg",
                 correct: true,
                 text: "el hombre",
@@ -150,7 +149,7 @@ const main = async () => {
 
         await db.insert(schema.challengeOptions).values([
             {
-                challengeId: 2, // "the man"
+                challengeId: 2, 
                 correct: true,
                 text: "el hombre",
                 audioSrc: "/es_man.mp3",
@@ -171,7 +170,7 @@ const main = async () => {
 
         await db.insert(schema.challengeOptions).values([
             {
-                challengeId: 3, // Which one of these is the "the robot"?
+                challengeId: 3, 
                 imageSrc: "/man.svg",
                 correct: false,
                 text: "el hombre",
@@ -193,7 +192,6 @@ const main = async () => {
             },
         ]);
 
-        // ---------- Lesson 2: Verbs ----------
         await db.insert(schema.challenges).values([
             {
                 id: 4,
@@ -219,7 +217,6 @@ const main = async () => {
         ]);
 
         await db.insert(schema.challengeOptions).values([
-            // Challenge 4 — ASSIST: the woman
             {
                 challengeId: 4,
                 correct: false,
@@ -239,7 +236,6 @@ const main = async () => {
                 audioSrc: "/es_robot.mp3",
             },
 
-            // Challenge 5 — SELECT: the woman
             {
                 challengeId: 5,
                 imageSrc: "/man.svg",
@@ -262,7 +258,6 @@ const main = async () => {
                 audioSrc: "/es_robot.mp3",
             },
 
-            // Challenge 6 — ASSIST: the man
             {
                 challengeId: 6,
                 correct: true,
@@ -283,7 +278,6 @@ const main = async () => {
             },
         ]);
 
-        // ---------- Lesson 6: Robot (два челенджі типу TYPE) ----------
         await db.insert(schema.challenges).values([
             {
                 id: 7,
@@ -302,7 +296,7 @@ const main = async () => {
         ]);
 
         await db.insert(schema.challengeOptions).values([
-            // Частина 1: слово
+
             {
                 challengeId: 7,
                 imageSrc: "/robot.svg",
@@ -311,23 +305,22 @@ const main = async () => {
                 audioSrc: "/es_robot.mp3",
             },
 
-            // Частина 2: слово вже написане зверху (correct: false), нижче довша фраза
             {
                 challengeId: 8,
                 imageSrc: "/robot.svg",
-                correct: false, // false = показати як уже написане, не набирати
+                correct: false,
                 text: "el robot",
                 audioSrc: "/es_robot.mp3",
             },
             {
                 challengeId: 8,
-                correct: true, // true = це треба набрати
+                correct: true, 
                 text: "El robot es malo.",
                 audioSrc: "/es_robot_p2.mp3",
             },
         ]);
 
-        // ---------- Lesson 7: Flip (фліп-картки, перший урок) ----------
+
         await db.insert(schema.challenges).values([
             {
                 id: 9,
@@ -338,8 +331,7 @@ const main = async () => {
             },
         ]);
 
-        // text = іспанське слово, translation = український переклад.
-        // Лише слова, без картинок і аудіо. Щоб додати слово — додай ще один рядок.
+
         await db.insert(schema.challengeOptions).values([
             {
                 challengeId: 9,
@@ -361,10 +353,10 @@ const main = async () => {
             },
         ]);
 
-        console.log("Seeding finished");
+        console.log("Заповнення завершено");
     } catch (error) {
         console.error(error);
-        throw new Error("Failed to seed the database");
+        throw new Error("Не вдалося заповнити базу даних");
     }
 };
 

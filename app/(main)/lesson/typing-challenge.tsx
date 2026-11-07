@@ -8,25 +8,23 @@ import { Card } from "./card";
 
 type Stage = {
   text: string;
-  audioSrc?: string | null; // аудіо цієї частини, напр. "/es_robot_p2.mp3"
-  done?: boolean; // уже написано в попередньому челенджі: показуємо зеленим, не набираємо
+  audioSrc?: string | null; 
+  done?: boolean;
 };
 
 type Props = {
   imageSrc?: string | null;
-  audioSrc?: string | null; // запасне аудіо для першої частини
-  cardText?: string; // текст під іконкою в картці, напр. "el robot"
+  audioSrc?: string | null; 
+  cardText?: string;
   stages: Stage[];
   disabled?: boolean;
-  onComplete: () => void; // після останньої частини
+  onComplete: () => void;
 };
 
-// Порівнюємо без урахування регістру й наголосів,
-// щоб "é" можна було набрати як "e" на будь-якій клавіатурі.
 const normalize = (c: string) =>
   c.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-// Відділяє розділові знаки в кінці: "El robot es malo." -> core "El robot es malo", tail "."
+
 const splitTail = (text: string) => {
   const m = text.match(/^(.*?)([.,!?;:…]*)$/);
   return { core: m?.[1] ?? text, tail: m?.[2] ?? "" };
@@ -49,7 +47,7 @@ const Block = ({ text, tail, pos, active, complete, wrong }: BlockProps) => {
     <div className="flex flex-wrap items-end justify-center gap-y-4">
       {words.map((word, wi) => {
         const start = offset;
-        offset += word.length + 1; // +1 за пробіл
+        offset += word.length + 1;
         const spaceIndex = start + word.length;
         const isLastWord = wi === words.length - 1;
 
@@ -73,19 +71,14 @@ const Block = ({ text, tail, pos, active, complete, wrong }: BlockProps) => {
                     key={ci}
                     className={cn(
                       "mx-0.5 inline-flex min-w-[2rem] justify-center border-b-4 pb-1 text-4xl font-bold transition-colors",
-                      // набрана літера: темна, повна видимість
                       state === "typed" &&
                         "border-neutral-400 text-neutral-800",
-                      // ще не набрана: напівпрозора
                       state === "ghost" &&
                         "border-neutral-300 text-neutral-800/25",
-                      // та, яку пишемо зараз: блимає синя лінія
                       state === "current" &&
                         "animate-pulse border-blue-500 text-neutral-800/25",
-                      // блок дописано
                       state === "done" &&
                         "border-emerald-500 text-emerald-500",
-                      // помилка
                       state === "current" &&
                         wrong &&
                         "animate-none border-rose-500 text-rose-500/50"
@@ -137,7 +130,6 @@ export const TypingChallenge = ({
   disabled,
   onComplete,
 }: Props) => {
-  // починаємо з першої ще не написаної частини
   const [stageIndex, setStageIndex] = useState(() => {
     const i = stages.findIndex((s) => !s.done);
     return i === -1 ? 0 : i;
@@ -154,15 +146,12 @@ export const TypingChallenge = ({
   const parsed = stages.map((s) => splitTail(s.text));
   const current = parsed[stageIndex];
 
-  // Аудіо поточної частини (для першої є запасний варіант з пропса audioSrc)
   const stageAudioSrc = stages[stageIndex]?.audioSrc ?? audioSrc ?? null;
 
   useEffect(() => {
     inputRef.current?.focus();
   }, [stageIndex]);
 
-  // Автоплей один раз при появі кожної частини.
-  // Далі користувач повторює вручну (клавіша 1 / клік по картці).
   useEffect(() => {
     if (!stageAudioSrc) return;
 
@@ -197,7 +186,6 @@ export const TypingChallenge = ({
 
     const expected = current.core[pos];
 
-    // клавіша "1" озвучує картку (це робить Card), тож тут її ігноруємо
     if (typed === "1" && expected !== "1") return;
 
     if (normalize(typed) !== normalize(expected)) {
@@ -215,7 +203,6 @@ export const TypingChallenge = ({
       return;
     }
 
-    // частину дописано
     if (stageIndex + 1 < stages.length) {
       setStageIndex((i) => i + 1);
       setPos(0);
@@ -234,14 +221,14 @@ export const TypingChallenge = ({
       {okAudio}
       {errorAudio}
 
-      {/* та сама картка, що й в інших челенджах: іконка, текст і цифра 1 */}
+      {}
       {imageSrc && (
         <div className="w-[220px] lg:w-[260px]">
           <Card
-            key={stageIndex} // новий екземпляр картки для кожної частини: свіже аудіо для клавіші 1
+            key={stageIndex} 
             id={0}
             imageSrc={imageSrc}
-            audioSrc={stageAudioSrc} // аудіо поточної частини
+            audioSrc={stageAudioSrc} 
             text={cardText ?? ""}
             shortcut="1"
             onClick={() => inputRef.current?.focus()}
@@ -265,7 +252,7 @@ export const TypingChallenge = ({
           )
       )}
 
-      {/* прихований input: ловить клавіатуру і на десктопі, і на телефоні */}
+      {}
       <input
         ref={inputRef}
         onChange={handleInput}

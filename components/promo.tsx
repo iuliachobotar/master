@@ -14,11 +14,11 @@ export const Promo = () => {
                         height={26}
                     />
                     <h3 className="font-bold text-lg">
-                        Upgrade to Pro
+                        Перейти на Pro
                     </h3>
                 </div>
                 <p className="text-muted-foreground">
-                    Get unlimited hearts and more!
+                    Отримайте необмежену кількість сердечок!
                 </p>
             </div>
             
@@ -29,7 +29,7 @@ export const Promo = () => {
                 size="lg"
             >
                 <Link href="/shop">
-                Upgrade today
+                Покращити сьогодні
                 </Link>
             </Button>
         </div>

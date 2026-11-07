@@ -25,7 +25,7 @@ export const Header = () => {
           />
 
           <h1 className="text-2xl font-medium text-green-600 tracking-wide">
-            Lingo
+            LangLab
           </h1>
         </div>
 
@@ -44,7 +44,7 @@ export const Header = () => {
           <Show when="signed-out">
             <SignInButton mode="modal">
               <Button size="lg" variant="ghost">
-                Login
+                Увійти
               </Button>
             </SignInButton>
           </Show>

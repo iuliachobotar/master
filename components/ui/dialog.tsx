@@ -71,12 +71,12 @@ function DialogContent({
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
             <Button
               variant="ghost"
-              className="absolute top-2 right-2"
-              size="icon-sm"
+              className="absolute top-2 right-2 size-8 p-0"
+              size="icon"
             >
               <XIcon
               />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">Закрити</span>
             </Button>
           </DialogPrimitive.Close>
         )}
@@ -115,7 +115,7 @@ function DialogFooter({
       {children}
       {showCloseButton && (
         <DialogPrimitive.Close asChild>
-          <Button variant="outline">Close</Button>
+          <Button variant="primaryOutline">Закрити</Button>
         </DialogPrimitive.Close>
       )}
     </div>

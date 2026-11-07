@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 
 type FlipCardData = {
     id: number;
-    word: string;        // англійське слово (лицьова сторона)
-    translation: string; // український переклад (зворотна сторона)
+    word: string;       
+    translation: string; 
     imageSrc: string | null;
     audioSrc: string | null;
 };
@@ -43,7 +43,7 @@ export const FlipChallenge = ({ cards, onComplete }: Props) => {
     }, [cards.length]);
 
     const prev = useCallback(() => goTo(index - 1), [goTo, index]);
-    // На останній картці кнопка «вправо» завершає урок
+
     const next = useCallback(() => {
         if (index === cards.length - 1) {
             if (completedRef.current) return;
@@ -54,7 +54,7 @@ export const FlipChallenge = ({ cards, onComplete }: Props) => {
         goTo(index + 1);
     }, [goTo, index, cards.length, onComplete]);
 
-    // Клавіатура: ← → перемикають картки, пропуск перевертає
+
     useKey("ArrowLeft", prev, {}, [prev]);
     useKey("ArrowRight", next, {}, [next]);
     useKey(" ", (e) => {
@@ -71,7 +71,7 @@ export const FlipChallenge = ({ cards, onComplete }: Props) => {
         <div className="flex flex-col items-center gap-y-6">
             {audio}
 
-            {/* key перемонтовує картку при перемиканні, тому переклад не "блимає" під час анімації */}
+            {}
             <div
                 key={current.id}
                 className="w-full max-w-md h-[260px] lg:h-[300px] [perspective:1200px]"
@@ -130,7 +130,7 @@ export const FlipChallenge = ({ cards, onComplete }: Props) => {
                         </span>
                     </div>
 
-                    {/* Зворотна сторона — український переклад */}
+                    {}
                     <div
                         className={cn(
                             "absolute inset-0 flex items-center justify-center",

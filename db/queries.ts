@@ -228,20 +228,6 @@ export const getUserSubscription = cache(async () => {
 
     if (!userId) return null;
 
-
-    //TEST PRO
-
-    // return {
-    //         userId,
-    //         stripeCustomerId: "test_customer",
-    //         stripePriceId: "test_price",
-    //         stripeCurrentPeriodEnd: new Date(Date.now() + 30 * DAY_IN_MS),
-    //         isActive: true,
-    //     };
-
-
-
-
     const  data = await db.query.userSubscription.findFirst({
         where: eq(userSubscription.userId, userId),
     });

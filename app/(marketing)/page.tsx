@@ -21,7 +21,7 @@ export default function Home() {
 
       <div className="flex flex-col items-center gap-y-8">
         <h1 className="text-xl lg:text-3xl font-bold text-neutral-600 max-w-[480px] text-center">
-          Learn, practice, and master new languages with Lingo.
+          Практикуйте та опановуйте нові мови за допомогою LangLab.
         </h1>
 
         <div className="flex flex-col items-center gap-y-3 max-2-[330px] w-full">
@@ -36,7 +36,7 @@ export default function Home() {
                 mode="modal"
               >
                 <Button size="lg" variant="secondary" className="w-full">
-                  Get Started
+                  Розпочати
                 </Button>
               </SignUpButton>
 
@@ -48,7 +48,7 @@ export default function Home() {
                   variant="primaryOutline"
                   className="w-full"
                 >
-                  I already have an account
+                  Я вже маю акаунт
                 </Button>
               </SignInButton>
             </Show>
@@ -56,7 +56,7 @@ export default function Home() {
             <Show when="signed-in">
               <Button size="lg" variant="secondary" className="w-full asChild">
                   <Link href="/learn">
-                  Continue Learning
+                  Продовжити
                   </Link>
                 </Button>
             </Show>

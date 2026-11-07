@@ -30,31 +30,31 @@ export const Sidebar = ({ className }: Props) => {
                 />
             
                 <h1 className="text-2xl font-medium text-green-600 tracking-wide">
-                    Lingo
+                    LangLab
                     </h1>
             </div>
                 </Link>
                 <div className="flex flex-col gap-y-2 flex-1">
                     <SidebarItem 
-                    label="Learn" 
+                    label="Навчання" 
                     href="/learn" 
                     iconSrc="/learn.svg"
                     />
 
                     <SidebarItem 
-                    label="Leaderboard" 
+                    label="Таблиця лідерів" 
                     href="/leaderboard" 
                     iconSrc="/leaderboard.svg"
                     />
 
                     <SidebarItem 
-                    label="quests" 
+                    label="Квести" 
                     href="/quests" 
                     iconSrc="/quests.svg"
                     />
 
                     <SidebarItem 
-                    label="shop" 
+                    label="Магазин" 
                     href="/shop" 
                     iconSrc="/shop.svg"
                     />

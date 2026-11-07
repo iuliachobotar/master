@@ -28,7 +28,7 @@ export const Items = ({
 
         startTransition(() => {
             refillHearts()
-                .catch(() => toast.error("Something went wrong"));
+                .catch(() => toast.error("Щось пішло не так"));
         });
     };
 
@@ -40,7 +40,7 @@ export const Items = ({
                     window.location.href = response.data;
                 }
             })
-            .catch(() => toast.error("Something went wrong"));
+            .catch(() => toast.error("Щось пішло не так"));
         });
     };
 
@@ -55,7 +55,7 @@ export const Items = ({
                 />
                 <div className="flex-1">
                     <p className="text-neutral-700 text-base lg:text-xl font-bold">
-                        Refill hearts
+                        Відновити серця
                     </p>
                 </div>
                 <Button
@@ -67,7 +67,7 @@ export const Items = ({
                     }
                 >
                     {hearts === 5
-                    ? "full"
+                    ? "Повні"
                     : (
                         <div className="flex items-center">
                             <Image
@@ -93,14 +93,14 @@ export const Items = ({
                     />
                     <div className="flex-1">
                         <p className="text-neutral-700 text-base lg:text-xl font-bold">
-                            Unlimited hearts
+                            Безлімітні серця
                         </p>
                     </div>
                     <Button
                         onClick={onUpgrade}
                         disabled={pending}
                     >
-                        {hasActiveSubscription ? "settings" : "upgrade"}
+                        {hasActiveSubscription ? "налаштування" : "покращити"}
                     </Button>
             </div>
         </ul>

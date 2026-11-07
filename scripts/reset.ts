@@ -10,7 +10,7 @@ const db = drizzle(sql, { schema });
 
 const main = async () => {
     try {
-        console.log("Resetting the database");
+        console.log("Скидання бази даних");
 
         await db.delete(schema.courses);
         await db.delete(schema.units);
@@ -21,10 +21,10 @@ const main = async () => {
         await db.delete(schema.challengeProgress);
         await db.delete(schema.userSubscription);
 
-        console.log("Resetting finished");
+        console.log("Заповнення завершено");
     } catch (error) {
         console.error(error);
-        throw new Error("Failed to reset the database");
+        throw new Error("Не вдалося скинути базу даних");
     }
 };
 

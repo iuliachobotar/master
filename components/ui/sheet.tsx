@@ -73,11 +73,11 @@ function SheetContent({
             <Button
               variant="ghost"
               className="absolute top-3 right-3"
-              size="icon-sm"
+              size="icon"
             >
               <XIcon
               />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">Закрити</span>
             </Button>
           </SheetPrimitive.Close>
         )}

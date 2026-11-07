@@ -40,10 +40,10 @@ export const PracticeModal = () => {
                         />
                     </div>
                     <DialogTitle className="text-center font-bold text-2xl">
-                        Practice lesson
+                        Практичне заняття
                     </DialogTitle>
                     <DialogDescription className="text-center text-base">
-                        Use practice lesson to regain hearts and points. You cannot loose hearts or points in practice lessons.
+                        Використовуйте тренувальні уроки, щоб відновити серця та бали. Під час тренувальних уроків неможливо їх втратити.                    
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="mb-4 bg-white">
@@ -54,7 +54,7 @@ export const PracticeModal = () => {
                         size="lg"
                         onClick={close}
                         >
-                            I understand
+                            Я розумію
                         </Button>
                     </div>
                 </DialogFooter>

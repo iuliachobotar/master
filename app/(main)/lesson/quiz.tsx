@@ -84,7 +84,6 @@ export const Quiz = ({
     const options = challenge?.challengeOptions ?? [];
     const sortedOptions = [...options].sort((a, b) => a.id - b.id);
 
-    // Завершення TYPE/FLIP-челенджа: працює так само, як правильна відповідь в інших челенджах
     const onAutoComplete = () => {
         if (status !== "none") return;
 
@@ -97,7 +96,7 @@ export const Quiz = ({
                     }
 
                     correctControls.play();
-                    setSelectedOption(options[0]?.id); // щоб кнопка Next стала активною
+                    setSelectedOption(options[0]?.id); 
                     setStatus("correct");
                     setPercentage((prev) => prev + 100 / challenges.length);
 
@@ -109,7 +108,6 @@ export const Quiz = ({
         });
     };
 
-    // Завершення FLIP-челенджа: після останньої картки одразу переходимо далі
     const onFlipComplete = () => {
         if (status !== "none") return;
 
@@ -130,7 +128,7 @@ export const Quiz = ({
 
                     setActiveIndex((current) => current + 1);
                 })
-                .catch(() => toast.error("Something went wrong. Please try again."));
+                .catch(() => toast.error("Щось пішло не так. Спробуйте, будь ласка, ще раз."));
         });
     };
 
@@ -183,7 +181,7 @@ export const Quiz = ({
                             setHearts((prev) => Math.min(prev + 1, 5));
                         }
                     })
-                    .catch(() => toast.error("Something went wrong. Please try again."));
+                    .catch(() => toast.error("Щось пішло не так. Спробуйте, будь ласка, ще раз."));
             });
         } else {
             startTransition(() => {
@@ -201,7 +199,7 @@ export const Quiz = ({
                             setHearts((prev) => Math.max(prev - 1, 0));
                         }
                     })
-                    .catch(() => toast.error("Something went wrong. Please try again."));
+                    .catch(() => toast.error("Щось пішло не так. Спробуйте, будь ласка, ще раз."));
             });
         }
     };
@@ -233,7 +231,7 @@ export const Quiz = ({
                         width={80}
                     />
                     <h1 className="text-xl lg:text-3xl font-bold text-neutral-700">
-                        Great job! <br /> You have completed the lesson.
+                        Чудова робота! <br /> Ви завершили урок.
                     </h1>
                     <div className="flex items-center gap-x-4 w-full">
                         <ResultCard
@@ -300,7 +298,7 @@ export const Quiz = ({
                                     stages={sortedOptions.map((o) => ({
                                         text: o.text,
                                         audioSrc: o.audioSrc,
-                                        done: !o.correct, // correct: false = уже написано, лише показати
+                                        done: !o.correct,
                                     }))}
                                     disabled={pending || status !== "none"}
                                     onComplete={onAutoComplete}
