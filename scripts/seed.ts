@@ -56,39 +56,45 @@ const main = async () => {
 
         await db.insert(schema.lessons).values([
             {
+                id: 7,
+                unitId: 1,
+                order: 1, // НОВИЙ перший урок: фліп-картки
+                title: "Flip",
+            },
+            {
                 id: 6,
                 unitId: 1,
-                order: 1, // новий перший урок
+                order: 2, // було 1
                 title: "Robot",
             },
             {
                 id: 1,
                 unitId: 1,
-                order: 2, // було 1
+                order: 3, // було 2
                 title: "Nouns",
             },
             {
                 id: 2,
                 unitId: 1,
-                order: 3, // було 2
+                order: 4, // було 3
                 title: "Verbs",
             },
             {
                 id: 3,
                 unitId: 1,
-                order: 4, // було 3
+                order: 5, // було 4
                 title: "Verbs",
             },
             {
                 id: 4,
                 unitId: 1,
-                order: 5, // було 4
+                order: 6, // було 5
                 title: "Verbs",
             },
             {
                 id: 5,
                 unitId: 1,
-                order: 6, // було 5
+                order: 7, // було 6
                 title: "Verbs",
             },
         ]);
@@ -278,48 +284,82 @@ const main = async () => {
         ]);
 
         // ---------- Lesson 6: Robot (два челенджі типу TYPE) ----------
-await db.insert(schema.challenges).values([
-    {
-        id: 7,
-        lessonsId: 6,
-        type: "TYPE",
-        order: 1,
-        question: "Type what you see",
-    },
-    {
-        id: 8,
-        lessonsId: 6,
-        type: "TYPE",
-        order: 2,
-        question: "Type what you see",
-    },
-]);
+        await db.insert(schema.challenges).values([
+            {
+                id: 7,
+                lessonsId: 6,
+                type: "TYPE",
+                order: 1,
+                question: "Type what you see",
+            },
+            {
+                id: 8,
+                lessonsId: 6,
+                type: "TYPE",
+                order: 2,
+                question: "Type what you see",
+            },
+        ]);
 
-await db.insert(schema.challengeOptions).values([
-    // Частина 1: слово
-    {
-        challengeId: 7,
-        imageSrc: "/robot.svg",
-        correct: true,
-        text: "el robot",
-        audioSrc: "/es_robot.mp3",
-    },
+        await db.insert(schema.challengeOptions).values([
+            // Частина 1: слово
+            {
+                challengeId: 7,
+                imageSrc: "/robot.svg",
+                correct: true,
+                text: "el robot",
+                audioSrc: "/es_robot.mp3",
+            },
 
-    // Частина 2: слово вже написане зверху (correct: false), нижче довша фраза
-    {
-        challengeId: 8,
-        imageSrc: "/robot.svg",
-        correct: false, // false = показати як уже написане, не набирати
-        text: "el robot",
-        audioSrc: "/es_robot.mp3",
-    },
-    {
-        challengeId: 8,
-        correct: true, // true = це треба набрати
-        text: "El robot es malo.",
-        audioSrc: "/es_robot_p2.mp3",
-    },
-]);
+            // Частина 2: слово вже написане зверху (correct: false), нижче довша фраза
+            {
+                challengeId: 8,
+                imageSrc: "/robot.svg",
+                correct: false, // false = показати як уже написане, не набирати
+                text: "el robot",
+                audioSrc: "/es_robot.mp3",
+            },
+            {
+                challengeId: 8,
+                correct: true, // true = це треба набрати
+                text: "El robot es malo.",
+                audioSrc: "/es_robot_p2.mp3",
+            },
+        ]);
+
+        // ---------- Lesson 7: Flip (фліп-картки, перший урок) ----------
+        await db.insert(schema.challenges).values([
+            {
+                id: 9,
+                lessonsId: 7,
+                type: "FLIP",
+                order: 1,
+                question: "Вивчи нові слова",
+            },
+        ]);
+
+        // text = іспанське слово, translation = український переклад.
+        // Лише слова, без картинок і аудіо. Щоб додати слово — додай ще один рядок.
+        await db.insert(schema.challengeOptions).values([
+            {
+                challengeId: 9,
+                text: "la mujer",
+                translation: "жінка",
+                correct: true,
+            },
+            {
+                challengeId: 9,
+                text: "el hombre",
+                translation: "чоловік",
+                correct: true,
+            },
+            {
+                challengeId: 9,
+                text: "el robot",
+                translation: "робот",
+                correct: true,
+            },
+        ]);
 
         console.log("Seeding finished");
     } catch (error) {

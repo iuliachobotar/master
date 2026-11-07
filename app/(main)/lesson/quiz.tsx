@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 
 import { TypingChallenge } from "./typing-challenge";
+import { FlipChallenge } from "./flip-challenge";
 import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import { Header } from "./header";
 import { QuestionBubble } from "./question-bubble";
@@ -83,8 +84,8 @@ export const Quiz = ({
     const options = challenge?.challengeOptions ?? [];
     const sortedOptions = [...options].sort((a, b) => a.id - b.id);
 
-    // Завершення TYPE-челенджа: працює так само, як правильна відповідь в інших челенджах
-    const onTypingComplete = () => {
+    // Завершення TYPE/FLIP-челенджа: працює так само, як правильна відповідь в інших челенджах
+    const onAutoComplete = () => {
         if (status !== "none") return;
 
         startTransition(() => {
@@ -103,6 +104,31 @@ export const Quiz = ({
                     if (initialPercentage === 100) {
                         setHearts((prev) => Math.min(prev + 1, 5));
                     }
+                })
+                .catch(() => toast.error("Something went wrong. Please try again."));
+        });
+    };
+
+    // Завершення FLIP-челенджа: після останньої картки одразу переходимо далі
+    const onFlipComplete = () => {
+        if (status !== "none") return;
+
+        startTransition(() => {
+            upsertChallengeProgress(challenge.id)
+                .then((response) => {
+                    if (response?.error === "hearts") {
+                        openHeartsModal();
+                        return;
+                    }
+
+                    correctControls.play();
+                    setPercentage((prev) => prev + 100 / challenges.length);
+
+                    if (initialPercentage === 100) {
+                        setHearts((prev) => Math.min(prev + 1, 5));
+                    }
+
+                    setActiveIndex((current) => current + 1);
                 })
                 .catch(() => toast.error("Something went wrong. Please try again."));
         });
@@ -253,7 +279,19 @@ export const Quiz = ({
                                 <QuestionBubble question={challenge.question} />
                             )}
 
-                            {challenge.type === "TYPE" ? (
+                            {challenge.type === "FLIP" ? (
+                                <FlipChallenge
+                                    key={challenge.id}
+                                    cards={sortedOptions.map((o) => ({
+                                        id: o.id,
+                                        word: o.text,
+                                        translation: o.translation ?? "",
+                                        imageSrc: o.imageSrc,
+                                        audioSrc: o.audioSrc,
+                                    }))}
+                                    onComplete={onFlipComplete}
+                                />
+                            ) : challenge.type === "TYPE" ? (
                                 <TypingChallenge
                                     key={challenge.id}
                                     imageSrc={sortedOptions[0]?.imageSrc}
@@ -265,7 +303,7 @@ export const Quiz = ({
                                         done: !o.correct, // correct: false = уже написано, лише показати
                                     }))}
                                     disabled={pending || status !== "none"}
-                                    onComplete={onTypingComplete}
+                                    onComplete={onAutoComplete}
                                 />
                             ) : (
                                 <Challenge

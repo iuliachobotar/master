@@ -23,6 +23,10 @@ export const ChallengeCreate = () => {
                             id: "TYPE",
                             name: "TYPE",
                         },
+                        {
+                            id: "FLIP",
+                            name: "FLIP",
+                        },
                     ]}
                     validate={[required()]} 
                 />

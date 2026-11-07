@@ -1,4 +1,4 @@
-import { SimpleForm, Edit, TextInput, required, ReferenceInput, BooleanInput } from "react-admin";
+import { SimpleForm, Edit, TextInput, required, ReferenceInput, BooleanInput, SelectInput } from "react-admin";
 
 export const ChallengeOptionEdit = () => {
     return (
@@ -7,15 +7,28 @@ export const ChallengeOptionEdit = () => {
                 <TextInput 
                 source="text" 
                 validate={[required()]} 
-                label="Text"/>
+                label="Text"
+                helperText="Для FLIP — слово іноземною мовою (лицьова сторона картки)."/>
                     <BooleanInput
                     source="correct"
                     label="Correct option"
+                    helperText="SELECT/ASSIST: правильна відповідь. TYPE: увімкнено — це треба набрати, вимкнено — показати як уже написане. FLIP: можна лишити увімкненим."
                     />
                     <ReferenceInput
                     source="challengeId"
                     reference="challenges"
-                    />
+                    >
+                        <SelectInput
+                            optionText="question"
+                            validate={[required()]}
+                            label="Challenge"
+                        />
+                    </ReferenceInput>
+            <TextInput
+                source="translation"
+                label="Translation (для FLIP)"
+                helperText="Український переклад на звороті фліп-картки. Для інших типів лишити порожнім."
+            />
             <TextInput
                 source="imageSrc"
                 label="Image URL"

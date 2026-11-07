@@ -23,13 +23,23 @@ export const ChallengeEdit = () => {
                             id: "TYPE",
                             name: "TYPE",
                         },
+                        {
+                            id: "FLIP",
+                            name: "FLIP",
+                        },
                     ]}
                     validate={[required()]} 
                 />
                 <ReferenceInput
-                source="lessonId"
-                reference="lessons"
-            />
+                    source="lessonsId"
+                    reference="lessons"
+                >
+                    <SelectInput
+                        optionText="title"
+                        validate={[required()]}
+                        label="Lesson"
+                    />
+                </ReferenceInput>
             <NumberInput
                 source="order"
                 validate={[required()]}
