@@ -8,13 +8,14 @@ import { Card } from "./card";
 
 type Stage = {
   text: string;
-  audioSrc?: string | null; 
+  audioSrc?: string | null;
+  imageSrc?: string | null;
   done?: boolean;
 };
 
 type Props = {
   imageSrc?: string | null;
-  audioSrc?: string | null; 
+  audioSrc?: string | null;
   cardText?: string;
   stages: Stage[];
   disabled?: boolean;
@@ -37,9 +38,20 @@ type BlockProps = {
   active: boolean;
   complete: boolean;
   wrong: boolean;
+  stageKey: number;
+  mistakes: Set<string>;
 };
 
-const Block = ({ text, tail, pos, active, complete, wrong }: BlockProps) => {
+const Block = ({
+  text,
+  tail,
+  pos,
+  active,
+  complete,
+  wrong,
+  stageKey,
+  mistakes,
+}: BlockProps) => {
   const words = text.split(" ");
   let offset = 0;
 
@@ -66,19 +78,29 @@ const Block = ({ text, tail, pos, active, complete, wrong }: BlockProps) => {
                   ? "current"
                   : "ghost";
 
+                const mistaken = mistakes.has(`${stageKey}-${i}`);
+
                 return (
                   <span
                     key={ci}
                     className={cn(
                       "mx-0.5 inline-flex min-w-[2rem] justify-center border-b-4 pb-1 text-4xl font-bold transition-colors",
                       state === "typed" &&
+                        !mistaken &&
                         "border-neutral-400 text-neutral-800",
+                      state === "typed" &&
+                        mistaken &&
+                        "border-orange-400 text-orange-500",
                       state === "ghost" &&
                         "border-neutral-300 text-neutral-800/25",
                       state === "current" &&
                         "animate-pulse border-blue-500 text-neutral-800/25",
                       state === "done" &&
+                        !mistaken &&
                         "border-emerald-500 text-emerald-500",
+                      state === "done" &&
+                        mistaken &&
+                        "border-orange-400 text-orange-500",
                       state === "current" &&
                         wrong &&
                         "animate-none border-rose-500 text-rose-500/50"
@@ -137,6 +159,7 @@ export const TypingChallenge = ({
   const [pos, setPos] = useState(0);
   const [wrong, setWrong] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [mistakes, setMistakes] = useState<Set<string>>(new Set());
 
   const [okAudio, , okControls] = useAudio({ src: "/key.mp3" });
   const [errorAudio, , errorControls] = useAudio({ src: "/error.mp3" });
@@ -147,6 +170,13 @@ export const TypingChallenge = ({
   const current = parsed[stageIndex];
 
   const stageAudioSrc = stages[stageIndex]?.audioSrc ?? audioSrc ?? null;
+
+  const stageImageSrc = (() => {
+    for (let i = stageIndex; i >= 0; i--) {
+      if (stages[i]?.imageSrc) return stages[i].imageSrc;
+    }
+    return imageSrc ?? null;
+  })();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -190,6 +220,7 @@ export const TypingChallenge = ({
 
     if (normalize(typed) !== normalize(expected)) {
       playError();
+      setMistakes((prev) => new Set(prev).add(`${stageIndex}-${pos}`));
       setWrong(true);
       setTimeout(() => setWrong(false), 250);
       return;
@@ -221,14 +252,13 @@ export const TypingChallenge = ({
       {okAudio}
       {errorAudio}
 
-      {}
-      {imageSrc && (
+      {stageImageSrc && (
         <div className="w-[220px] lg:w-[260px]">
           <Card
-            key={stageIndex} 
+            key={`${stageIndex}-${stageImageSrc}`}
             id={0}
-            imageSrc={imageSrc}
-            audioSrc={stageAudioSrc} 
+            imageSrc={stageImageSrc}
+            audioSrc={stageAudioSrc}
             text={cardText ?? ""}
             shortcut="1"
             onClick={() => inputRef.current?.focus()}
@@ -248,11 +278,12 @@ export const TypingChallenge = ({
               active={i === stageIndex}
               complete={i < stageIndex || (finished && i === stageIndex)}
               wrong={wrong}
+              stageKey={i}
+              mistakes={mistakes}
             />
           )
       )}
 
-      {}
       <input
         ref={inputRef}
         onChange={handleInput}

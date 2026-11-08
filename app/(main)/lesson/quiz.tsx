@@ -254,7 +254,7 @@ export const Quiz = ({
     }
 
     const title = challenge.type === "ASSIST"
-        ? "Select the correct meaning"
+        ? "Виберіть правильне значення"
         : challenge.question;
 
     return (
@@ -298,6 +298,7 @@ export const Quiz = ({
                                     stages={sortedOptions.map((o) => ({
                                         text: o.text,
                                         audioSrc: o.audioSrc,
+                                        imageSrc: o.imageSrc,
                                         done: !o.correct,
                                     }))}
                                     disabled={pending || status !== "none"}

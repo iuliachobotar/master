@@ -1,15 +1,21 @@
-import { Datagrid, List, TextField, ReferenceField } from "react-admin";
+import { Datagrid, List, TextField, ReferenceField, NumberField, ReferenceInput, SelectInput } from "react-admin";
+
+const filters = [
+    <ReferenceInput key="courseId" source="courseId" reference="courses" alwaysOn perPage={1000}>
+        <SelectInput optionText="title" label="Course" />
+    </ReferenceInput>,
+];
 
 export const UnitList = () => {
     return (
-        <List>
+        <List filters={filters} sort={{ field: "order", order: "ASC" }}>
             <Datagrid rowClick="edit">
                 <TextField source="id"/>
                 <TextField source="title"/>
                 <TextField source="description"/>
                 <ReferenceField source="courseId" reference="courses"/>
-                <TextField source="order"/>
+                <NumberField source="order"/>
             </Datagrid>
         </List>
-    )
+    );
 };

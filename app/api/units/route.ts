@@ -1,17 +1,30 @@
 import { NextResponse } from "next/server";
+import { asc, eq } from "drizzle-orm";
 
 import db from "@/db/drizzle";
 import { units } from "@/db/schema";
 import { getIsAdmin } from "@/lib/admin";
 
-export const GET = async () => {
+export const GET = async (req: Request) => {
     if (!(await getIsAdmin())) {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const data = await db.query.units.findMany();
+    const { searchParams } = new URL(req.url);
+    const filter = JSON.parse(searchParams.get("filter") ?? "{}");
 
-    return NextResponse.json(data);
+    const data = await db
+        .select()
+        .from(units)
+        .where(filter.courseId ? eq(units.courseId, Number(filter.courseId)) : undefined)
+        .orderBy(asc(units.order), asc(units.id));
+
+    return NextResponse.json(data, {
+        headers: {
+            "Content-Range": `units 0-${data.length}/${data.length}`,
+            "Access-Control-Expose-Headers": "Content-Range",
+        },
+    });
 };
 
 export const POST = async (req: Request) => {

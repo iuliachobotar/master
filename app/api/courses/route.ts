@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { asc } from "drizzle-orm";
 
 import db from "@/db/drizzle";
 import { courses } from "@/db/schema";
@@ -9,9 +10,14 @@ export const GET = async () => {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const data = await db.query.courses.findMany();
+    const data = await db.select().from(courses).orderBy(asc(courses.id));
 
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+        headers: {
+            "Content-Range": `courses 0-${data.length}/${data.length}`,
+            "Access-Control-Expose-Headers": "Content-Range",
+        },
+    });
 };
 
 export const POST = async (req: Request) => {

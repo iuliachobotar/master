@@ -8,7 +8,7 @@ type Props = {
     id: number;
     imageSrc: string | null;
     audioSrc: string | null;
-    text: string;
+    text: string | null;
     shortcut: string;
     selected?: boolean;
     onClick: () => void;
@@ -60,24 +60,27 @@ export const Card = ({
                 <div
                     className="relative aspect-square mb-4 max-h-[200px] lg:max-h-[200px] w-full"
                 >
-                    <Image src={imageSrc} fill alt={text}/>
+                    <Image src={imageSrc} fill alt={text ?? ""}/>
                 </div>
             )}
             <div className={cn(
                 "flex items-center justify-between",
                 type === "ASSIST" && "flex-row-reverse",
+                type === "TYPE" && "justify-end",
             )}>
                 {type === "ASSIST" && <div />}
-                <p className={cn(
-                    "text-neutral-600 text-sm lg:text-base",
-                    selected && "text-sky-500",
-                    selected && status === "correct" 
-                    && "text-green-500",
-                    selected && status === "wrong" 
-                    && "text-rose-500",
-                )}>
-                    {text}
-                </p>
+                {type !== "TYPE" && (
+                    <p className={cn(
+                        "text-neutral-600 text-sm lg:text-base",
+                        selected && "text-sky-500",
+                        selected && status === "correct" 
+                        && "text-green-500",
+                        selected && status === "wrong" 
+                        && "text-rose-500",
+                    )}>
+                        {text}
+                    </p>
+                )}
                 <div className={cn(
                     "lg:2-[30px] lg:h=[30px] w-[20px] h-[20px] border-2 flex items-center justify-center rounded-lg text-neutral-400 lg:text-[15px] text-xs font-semibold",
                     selected && "border-sky-300 text-sky-500",

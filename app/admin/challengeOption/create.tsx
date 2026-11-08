@@ -2,21 +2,23 @@ import {
     SimpleForm,
     Create,
     TextInput,
-    required,
     ReferenceInput,
     BooleanInput,
     SelectInput,
+    required,
 } from "react-admin";
+import { MediaInput } from "@/app/admin/mediaInput";
+import { CreateToolbar } from "@/app/admin/createToolbar";
 
 export const ChallengeOptionCreate = () => {
     return (
         <Create>
-            <SimpleForm>
+            <SimpleForm toolbar={<CreateToolbar keep={["challengeId"]} />}>
                 <TextInput
                     source="text"
-                    validate={[required()]}
                     label="Text"
-                    helperText="Для FLIP — слово іноземною мовою (лицьова сторона картки)."
+                    parse={(v: string) => v ?? ""}
+                    helperText="Для FLIP — слово іноземною мовою (лицьова сторона картки). Можна лишити порожнім."
                 />
 
                 <BooleanInput
@@ -42,15 +44,8 @@ export const ChallengeOptionCreate = () => {
                     helperText="Український переклад на звороті фліп-картки. Для інших типів лишити порожнім."
                 />
 
-                <TextInput
-                    source="imageSrc"
-                    label="Image URL"
-                />
-
-                <TextInput
-                    source="audioSrc"
-                    label="Audio URL"
-                />
+                <MediaInput source="imageSrc" label="Image" kind="image" />
+                <MediaInput source="audioSrc" label="Audio" kind="audio" />
             </SimpleForm>
         </Create>
     );
