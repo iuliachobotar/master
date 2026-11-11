@@ -11,9 +11,9 @@
     "db:push": "npx drizzle-kit push",
     "db:seed": "tsx ./scripts/seed.ts",
     "db:reset": "tsx ./scripts/reset.ts"
-
   },
   "dependencies": {
+    "@clerk/localizations": "^4.24.6",
     "@clerk/nextjs": "^7.9.10",
     "@neondatabase/serverless": "^0.9.5",
     "class-variance-authority": "^0.7.1",
