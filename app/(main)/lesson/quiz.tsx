@@ -240,7 +240,7 @@ export const Quiz = ({
                         />
                         <ResultCard
                             variant="hearts"
-                            value={hearts}
+                            value={userSubscription?.isActive ? "∞" : hearts}
                         />
                     </div>
                 </div>
