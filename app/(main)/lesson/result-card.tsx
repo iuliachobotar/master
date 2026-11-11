@@ -28,14 +28,18 @@ export const ResultCard = ({ value, variant }: Props) => {
                 variant === "hearts" && "text-rose-500",
                 variant === "points" && "text-orange-400"
             )}>
-                <Image
+                                <Image
                 alt="Icon"
                 src={imageSrc}
                 height={30}
                 width={30}
                 className="mr-1.5"
                 />
-                {value}
+                {value === "∞" ? (
+                    <span className="text-3xl leading-none">∞</span>
+                ) : (
+                    value
+                )}
             </div>
         </div>
     );
