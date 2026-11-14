@@ -1,9 +1,8 @@
-import Image from "next/image";
+import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { quests } from "@/constants";
 import { Progress } from "@/components/ui/progress";
-
 
 type Props = {
     points: number;
@@ -29,26 +28,23 @@ export const Quests = ({ points }: Props) => {
                 {quests.map((quest) => {
                     const progress = (points / quest.value) * 100;
 
-                            return (
-                                <div
-                                    className="flex items-center w-full pb-4 gap-x-3"
-                                    key={quest.title}
-                                >
-                                    <Image
-                                    src="/points.svg"
-                                    alt="Points"
-                                    width={40}
-                                    height={40}
-                                    />
-                                    <div className="flex flex-col gap-y-2 w-full">
-                                        <p className="text-neutral-700 text-sm font-bold">
-                                            {quest.title}
-                                        </p>
-                                        <Progress value={progress} className="h-2" />
-                                    </div>
-
-                                </div>
-                            )
+                    return (
+                        <div
+                            className="flex items-center w-full pb-4 gap-x-3"
+                            key={quest.title}
+                        >
+                            <Star
+                                className="size-[40px] shrink-0 text-orange-500"
+                                fill="currentColor"
+                            />
+                            <div className="flex flex-col gap-y-2 w-full">
+                                <p className="text-neutral-700 text-sm font-bold">
+                                    {quest.title}
+                                </p>
+                                <Progress value={progress} className="h-2" />
+                            </div>
+                        </div>
+                    );
                 })}
             </ul>
         </div>
