@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Smiley } from "@/components/smiley";
 
 type Props = {
     question: string;
@@ -7,18 +7,14 @@ type Props = {
 export const QuestionBubble = ({ question }: Props) => {
     return (
         <div className="flex items-center gap-x-4 mb-6">
-            <Image 
-                src="/mascot.svg"
-                alt="Mascot"
-                height={60}
-                width={60}
+            <Smiley
+                variant="happy"
+                size={60}
                 className="hidden lg:block"
             />
-            <Image 
-                src="/mascot.svg"
-                alt="Mascot"
-                height={40}
-                width={40}
+            <Smiley
+                variant="happy"
+                size={40}
                 className="block lg:hidden"
             />
             <div className="relative py-2 px-4 border-2 rounded-xl text-sm lg:text-base">

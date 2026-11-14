@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -13,6 +12,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Smiley } from "@/components/smiley";
 import {useExitModal } from "@/store/use-exit-modal";
 
 
@@ -32,12 +32,7 @@ export const ExitModal = () => {
             <DialogContent className="max-w-md">
                 <DialogHeader>
                     <div className="flex items-center w-full justify-center mb-5">
-                        <Image 
-                            src="/mascot_sad.svg"
-                            alt="Mascot"
-                            height={80}
-                            width={80}
-                        />
+                        <Smiley variant="sad" size={80} />
                     </div>
                     <DialogTitle className="text-center font-bold text-2xl">
                         Зажди, не йди!

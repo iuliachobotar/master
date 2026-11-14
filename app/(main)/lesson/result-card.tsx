@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Crown, Heart, Star } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const ResultCard = ({ value, variant }: Props) => {
-    const imageSrc = variant === "hearts" ? "/heart.svg" : "/points.svg";
+    const isUnlimited = value === "∞";
 
     return (
         <div className={cn(
@@ -28,18 +28,16 @@ export const ResultCard = ({ value, variant }: Props) => {
                 variant === "hearts" && "text-rose-500",
                 variant === "points" && "text-orange-400"
             )}>
-                                <Image
-                alt="Icon"
-                src={imageSrc}
-                height={30}
-                width={30}
-                className="mr-1.5"
-                />
-                {value === "∞" ? (
-                    <span className="text-3xl leading-none">∞</span>
-                ) : (
-                    value
+                {variant === "points" && (
+                    <Star className="size-[30px] mr-1.5" fill="currentColor" />
                 )}
+                {variant === "hearts" && !isUnlimited && (
+                    <Heart className="size-[30px] mr-1.5" fill="currentColor" />
+                )}
+                {variant === "hearts" && isUnlimited && (
+                    <Crown className="size-[30px] text-amber-500" fill="currentColor" />
+                )}
+                {!isUnlimited && value}
             </div>
         </div>
     );

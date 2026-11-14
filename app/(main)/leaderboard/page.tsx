@@ -3,7 +3,7 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { getTopTenUsers, getUserProgress, getUserSubscription } from "@/db/queries";
 import { redirect } from "next/navigation";
-import Image from "next/image";
+import { Trophy } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Promo } from "@/components/promo";
@@ -46,11 +46,9 @@ const LeaderboardPage = async () => {
             </StickyWrapper>
             <FeedWrapper>
                 <div className="w-full flex flex-col items-center">
-                    <Image 
-                        src="/leaderboard.svg"
-                        alt="Leaderboard"
-                        height={90}
-                        width={90}
+                    <Trophy
+                        className="size-[90px] text-amber-500"
+                        strokeWidth={2}
                     />
                     <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
                         Таблиця лідерів

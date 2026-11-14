@@ -1,6 +1,5 @@
-import { InfinityIcon, X } from "lucide-react";
+import { Crown, Heart, X } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import Image from "next/image";
 import { useExitModal } from "@/store/use-exit-modal";
 
 type Props = {
@@ -23,19 +22,16 @@ export const Header = ({
                 className="text-slate-500 hover:opacity-75 transition cursor-pointer"
             />
             <Progress value={percentage}/>
-            <div className="text-rose-500 flex items-center font-bold">
-                <Image 
-                src="/heart.svg"
-                height={28}
-                width={28}
-                alt="Heart"
-                className="mr-2"
-                />
-                {hasActiveSubscription
-                ? <InfinityIcon className="h-6 w-6 stroke-[3] shrink-0"/>
-                : hearts
-                }
-            </div>
+            {hasActiveSubscription ? (
+                <div className="text-amber-500 flex items-center font-bold">
+                    <Crown className="size-7" fill="currentColor" />
+                </div>
+            ) : (
+                <div className="text-rose-500 flex items-center font-bold">
+                    <Heart className="size-7 mr-2" fill="currentColor" />
+                    {hearts}
+                </div>
+            )}
         </header>
     );
 };

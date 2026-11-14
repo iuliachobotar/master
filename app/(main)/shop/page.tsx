@@ -3,7 +3,7 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { getUserProgress, getUserSubscription } from "@/db/queries";
 import { redirect } from "next/navigation";
-import Image from "next/image";
+import { ShoppingBag } from "lucide-react";
 import { Items } from "./items";
 import { Promo } from "@/components/promo";
 import { Quests } from "@/components/quests";
@@ -42,11 +42,9 @@ const ShopPage = async () => {
             </StickyWrapper>
             <FeedWrapper>
                 <div className="w-full flex flex-col items-center">
-                    <Image 
-                        src="/shop.svg"
-                        alt="Shop"
-                        height={90}
-                        width={90}
+                    <ShoppingBag
+                        className="size-[90px] text-rose-500"
+                        strokeWidth={2}
                     />
                     <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
                         Магазин

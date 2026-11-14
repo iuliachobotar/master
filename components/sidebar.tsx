@@ -9,7 +9,8 @@ import {
     UserButton
 } from "@clerk/nextjs";
 
-import { Loader } from "lucide-react";
+import { GraduationCap, Loader, ShoppingBag, Target, Trophy } from "lucide-react";
+
 type Props = {
     className?: string;
 };
@@ -38,25 +39,25 @@ export const Sidebar = ({ className }: Props) => {
                     <SidebarItem 
                     label="Навчання" 
                     href="/learn" 
-                    iconSrc="/learn.svg"
+                    icon={<GraduationCap className="size-6" strokeWidth={2.5} />}
                     />
 
                     <SidebarItem 
                     label="Таблиця лідерів" 
                     href="/leaderboard" 
-                    iconSrc="/leaderboard.svg"
+                    icon={<Trophy className="size-6" strokeWidth={2.5} />}
                     />
 
                     <SidebarItem 
                     label="Квести" 
                     href="/quests" 
-                    iconSrc="/quests.svg"
+                    icon={<Target className="size-6" strokeWidth={2.5} />}
                     />
 
                     <SidebarItem 
                     label="Магазин" 
                     href="/shop" 
-                    iconSrc="/shop.svg"
+                    icon={<ShoppingBag className="size-6" strokeWidth={2.5} />}
                     />
                 </div>
                 <div className="p-4">
@@ -70,4 +71,3 @@ export const Sidebar = ({ className }: Props) => {
         </div>
     );
 };
-

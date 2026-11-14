@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { InfinityIcon } from "lucide-react";
+import { Crown, Heart, Star } from "lucide-react";
 import { courses } from "@/db/schema";
 
 type Props = {
@@ -33,18 +33,21 @@ export const UserProgress = ({
             </Link>
             <Link href="/shop">
                 <Button variant="ghost" className="text-orange-500">
-                    <Image src="/points.svg" height={28} width={28} alt="Points" className="mr-2"/>
+                    <Star className="size-7 mr-2" fill="currentColor" />
                     {points}
                 </Button>
             </Link>
             <Link href="/shop">
-                <Button variant="ghost" className="text-rose-500">
-                    <Image src="/heart.svg" height={22} width={22} alt="Hearts" className="mr-2"/>
-                    {hasActiveSubscription 
-                        ? <InfinityIcon className="h-4 w-4 stroke-[3]"/> 
-                        : hearts
-                    }
-                </Button>
+                {hasActiveSubscription ? (
+                    <Button variant="ghost" className="text-amber-500">
+                        <Crown className="size-7" fill="currentColor" />
+                    </Button>
+                ) : (
+                    <Button variant="ghost" className="text-rose-500">
+                        <Heart className="size-7 mr-2" fill="currentColor" />
+                        {hearts}
+                    </Button>
+                )}
             </Link>
         </div>
     );

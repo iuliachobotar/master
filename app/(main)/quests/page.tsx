@@ -3,7 +3,7 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { getUserProgress, getUserSubscription } from "@/db/queries";
 import { redirect } from "next/navigation";
-import Image from "next/image";
+import { Star, Target } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Promo } from "@/components/promo";
 import { quests } from "@/constants";
@@ -41,11 +41,9 @@ const QuestsPage = async () => {
             </StickyWrapper>
             <FeedWrapper>
                 <div className="w-full flex flex-col items-center">
-                    <Image 
-                        src="/quests.svg"
-                        alt="Quests"
-                        height={90}
-                        width={90}
+                    <Target
+                        className="size-[90px] text-sky-500"
+                        strokeWidth={2}
                     />
                     <h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
                         Квести
@@ -62,11 +60,9 @@ const QuestsPage = async () => {
                                     className="flex items-center w-full p-4 gap-x-4 border-t-2"
                                     key={quest.title}
                                 >
-                                    <Image
-                                    src="/points.svg"
-                                    alt="Points"
-                                    width={60}
-                                    height={60}
+                                    <Star
+                                        className="size-[60px] shrink-0 text-orange-500"
+                                        fill="currentColor"
                                     />
                                     <div className="flex flex-col gap-y-2 w-full">
                                         <p className="text-neutral-700 text-xl font-bold">

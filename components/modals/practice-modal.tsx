@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -32,11 +32,9 @@ export const PracticeModal = () => {
             <DialogContent className="max-w-md">
                 <DialogHeader>
                     <div className="flex items-center w-full justify-center mb-5">
-                        <Image 
-                            src="/heart.svg"
-                            alt="Heart"
-                            height={100}
-                            width={100}
+                        <Heart
+                            className="size-[100px] text-rose-500"
+                            fill="currentColor"
                         />
                     </div>
                     <DialogTitle className="text-center font-bold text-2xl">
