@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -7,11 +7,9 @@ export const Promo = () => {
         <div className="border-2 rounded-xl p-4 space-y-4">
             <div className="space-y-2">
                 <div className="flex items-center gap-x-2">
-                    <Image 
-                        src="/unlimited.svg"
-                        alt="Pro"
-                        width={26}
-                        height={26}
+                    <Crown
+                        className="size-[26px] text-yellow-500 fill-yellow-500"
+                        strokeWidth={2}
                     />
                     <h3 className="font-bold text-lg">
                         Перейти на Pro
@@ -21,15 +19,15 @@ export const Promo = () => {
                     Отримайте необмежену кількість сердечок!
                 </p>
             </div>
-            
-            <Button 
+
+            <Button
                 asChild
                 variant="super"
                 className="w-full"
                 size="lg"
             >
                 <Link href="/shop">
-                Покращити сьогодні
+                    Покращити сьогодні
                 </Link>
             </Button>
         </div>
